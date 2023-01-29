@@ -1572,8 +1572,8 @@ export const utils = {
   },
 
   randomBytes: (bytesLength: number = 32): Uint8Array => {
-    if (global.crypto) {
-      return global.crypto.getRandomValues(new Uint8Array(bytesLength));
+    if (globalThis.crypto) {
+      return globalThis.crypto.getRandomValues(new Uint8Array(bytesLength));
     } else {
       throw new Error("The environment doesn't have randomBytes function");
     }
@@ -1599,8 +1599,8 @@ export const utils = {
   },
 
   sha256: async (...messages: Uint8Array[]): Promise<Uint8Array> => {
-    if (global.crypto) {
-      const buffer = await global.crypto.subtle.digest('SHA-256', concatBytes(...messages));
+    if (globalThis.crypto) {
+      const buffer = await globalThis.crypto.subtle.digest('SHA-256', concatBytes(...messages));
       return new Uint8Array(buffer);
     } else {
       throw new Error("The environment doesn't have sha256 function");
@@ -1608,13 +1608,13 @@ export const utils = {
   },
 
   hmacSha256: async (key: Uint8Array, ...messages: Uint8Array[]): Promise<Uint8Array> => {
-    if (global.crypto) {
+    if (globalThis.crypto) {
       // prettier-ignore
-      const ckey = await global.crypto.subtle.importKey(
+      const ckey = await globalThis.crypto.subtle.importKey(
         'raw', key, { name: 'HMAC', hash: { name: 'SHA-256' } }, false, ['sign']
       );
       const message = concatBytes(...messages);
-      const buffer = await global.crypto.subtle.sign('HMAC', ckey, message);
+      const buffer = await globalThis.crypto.subtle.sign('HMAC', ckey, message);
       return new Uint8Array(buffer);
     } else {
       throw new Error("The environment doesn't have hmac-sha256 function");
