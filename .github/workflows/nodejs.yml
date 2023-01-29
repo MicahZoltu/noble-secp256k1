@@ -12,6 +12,7 @@ jobs:
       with:
         node-version: 18
     - run: npm install
+    - run: cd test && npm install && cd ..
     - run: npm run build --if-present
     - run: npm test
     - run: npm run lint --if-present
