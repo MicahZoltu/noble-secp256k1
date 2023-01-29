@@ -6,7 +6,7 @@ import { sha256 } from '@noble/hashes/sha256';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url'
 import { Crypto } from '@peculiar/webcrypto';
-global.crypto = new Crypto();
+globalThis.crypto = new Crypto();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const points = readFileSync(join(__dirname, './vectors/points.txt'), 'utf-8')

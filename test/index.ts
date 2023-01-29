@@ -10,7 +10,7 @@ import * as points from './vectors/points.json';
 import * as wp from './vectors/wychenproof.json';
 
 import { Crypto } from '@peculiar/webcrypto';
-global.crypto = new Crypto();
+globalThis.crypto = new Crypto();
 
 const privatesTxt = readFileSync(sysPath.join(__dirname, 'vectors', 'privates-2.txt'), 'utf-8');
 const schCsv = readFileSync(sysPath.join(__dirname, 'vectors', 'schnorr.csv'), 'utf-8');
