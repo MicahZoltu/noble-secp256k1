@@ -1,5 +1,5 @@
 import * as fc from 'fast-check';
-import * as secp from '..';
+import * as secp from '@zoltu/secp256k1';
 import { readFileSync } from 'fs';
 import { createHash } from 'crypto';
 import * as sysPath from 'path';
@@ -8,6 +8,10 @@ import * as ecdh from './vectors/ecdh.json';
 import * as privates from './vectors/privates.json';
 import * as points from './vectors/points.json';
 import * as wp from './vectors/wychenproof.json';
+
+import { Crypto } from '@peculiar/webcrypto';
+global.crypto = new Crypto();
+
 const privatesTxt = readFileSync(sysPath.join(__dirname, 'vectors', 'privates-2.txt'), 'utf-8');
 const schCsv = readFileSync(sysPath.join(__dirname, 'vectors', 'schnorr.csv'), 'utf-8');
 

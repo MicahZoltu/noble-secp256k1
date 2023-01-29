@@ -1,6 +1,9 @@
 build/
 node_modules/
 coverage/
+output/*
+!output/package.json
 /lib/**/*.js
 /lib/**/*.ts
 /lib/**/*.d.ts.map
+package-lock.json

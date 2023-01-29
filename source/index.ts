@@ -1,10 +1,6 @@
 /*! noble-secp256k1 - MIT License (c) 2019 Paul Miller (paulmillr.com) */
 // https://www.secg.org/sec2-v2.pdf
 
-// Uses built-in crypto module from node.js to generate randomness / hmac-sha256.
-// In browser the line is automatically removed during build time: uses crypto.subtle instead.
-import * as nodeCrypto from 'crypto';
-
 // Be friendly to bad ECMAScript parsers by not using bigint literals like 123n
 const _0n = BigInt(0);
 const _1n = BigInt(1);
@@ -1529,11 +1525,7 @@ export const schnorr = {
 Point.BASE._setWindowSize(8);
 
 // Global symbol available in browsers only. Ensure we do not depend on @types/dom
-declare const self: Record<string, any> | undefined;
-const crypto: { node?: any; web?: any } = {
-  node: nodeCrypto,
-  web: typeof self === 'object' && 'crypto' in self ? self.crypto : undefined,
-};
+declare const self: Record<string, unknown> | undefined;
 
 const TAGS = {
   challenge: 'BIP0340/challenge',
@@ -1580,11 +1572,8 @@ export const utils = {
   },
 
   randomBytes: (bytesLength: number = 32): Uint8Array => {
-    if (crypto.web) {
-      return crypto.web.getRandomValues(new Uint8Array(bytesLength));
-    } else if (crypto.node) {
-      const { randomBytes } = crypto.node;
-      return Uint8Array.from(randomBytes(bytesLength));
+    if (global.crypto) {
+      return global.crypto.getRandomValues(new Uint8Array(bytesLength));
     } else {
       throw new Error("The environment doesn't have randomBytes function");
     }
@@ -1610,33 +1599,23 @@ export const utils = {
   },
 
   sha256: async (...messages: Uint8Array[]): Promise<Uint8Array> => {
-    if (crypto.web) {
-      const buffer = await crypto.web.subtle.digest('SHA-256', concatBytes(...messages));
+    if (global.crypto) {
+      const buffer = await global.crypto.subtle.digest('SHA-256', concatBytes(...messages));
       return new Uint8Array(buffer);
-    } else if (crypto.node) {
-      const { createHash } = crypto.node;
-      const hash = createHash('sha256');
-      messages.forEach((m) => hash.update(m));
-      return Uint8Array.from(hash.digest());
     } else {
       throw new Error("The environment doesn't have sha256 function");
     }
   },
 
   hmacSha256: async (key: Uint8Array, ...messages: Uint8Array[]): Promise<Uint8Array> => {
-    if (crypto.web) {
+    if (global.crypto) {
       // prettier-ignore
-      const ckey = await crypto.web.subtle.importKey(
+      const ckey = await global.crypto.subtle.importKey(
         'raw', key, { name: 'HMAC', hash: { name: 'SHA-256' } }, false, ['sign']
       );
       const message = concatBytes(...messages);
-      const buffer = await crypto.web.subtle.sign('HMAC', ckey, message);
+      const buffer = await global.crypto.subtle.sign('HMAC', ckey, message);
       return new Uint8Array(buffer);
-    } else if (crypto.node) {
-      const { createHmac } = crypto.node;
-      const hash = createHmac('sha256', key);
-      messages.forEach((m) => hash.update(m));
-      return Uint8Array.from(hash.digest());
     } else {
       throw new Error("The environment doesn't have hmac-sha256 function");
     }

@@ -2,18 +2,16 @@
   "compilerOptions": {
     "strict": true,
     "declaration": true,
-    "declarationMap": false,
-    "target": "es2020",
-    "lib": ["es2020"],
-    "module": "commonjs",
+    "declarationMap": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "ES2022",
     "moduleResolution": "node",
-    "outDir": "lib",
+    "rootDir": "source",
+    "outDir": "output",
     "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
   },
-  "include": ["index.ts"],
-  "exclude": ["node_modules", "lib"]
+  "include": ["source/*.ts"]
 }

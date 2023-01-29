@@ -1,10 +1,15 @@
-const { run, mark, logMem } = require('micro-bmark');
-const secp = require('..');
-const { join } = require('path');
-const { hmac } = require('@noble/hashes/hmac');
-const { sha256 } = require('@noble/hashes/sha256');
-const points = require('fs')
-  .readFileSync(join(__dirname, './vectors/points.txt'), 'utf-8')
+import * as secp from '@zoltu/secp256k1';
+import { run, mark, logMem } from 'micro-bmark';
+import { join, dirname } from 'path';
+import { hmac } from '@noble/hashes/hmac';
+import { sha256 } from '@noble/hashes/sha256';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url'
+import { Crypto } from '@peculiar/webcrypto';
+global.crypto = new Crypto();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const points = readFileSync(join(__dirname, './vectors/points.txt'), 'utf-8')
   .split('\n')
   .filter((a) => a)
   .slice(0, 1000);
