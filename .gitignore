@@ -6,4 +6,3 @@ output/*
 /lib/**/*.js
 /lib/**/*.ts
 /lib/**/*.d.ts.map
-package-lock.json
