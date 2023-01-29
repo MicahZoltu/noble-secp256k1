@@ -8,8 +8,9 @@
   "module": "output/index.js",
   "types": "output/index.d.ts",
   "scripts": {
+    "setup": "npm ci --ignore-scripts && cd test && npm ci --ignore-scripts",
     "build": "tsc",
-    "test": "cd test && jest",
+    "test": "cd test && npm run test",
     "coverage": "cd test && jest --coverage",
     "bench": "node test/benchmark.js"
   },

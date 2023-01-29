@@ -19,5 +19,8 @@
 		"extensionsToTreatAsEsm": [".ts"],
 		"testRegex": "/.*?\\.ts",
 		"transform": { "^.+\\.m?[tj]sx?$": ["ts-jest", { "useESM": true }] }
+	},
+	"scripts": {
+		"test": "jest"
 	}
 }
